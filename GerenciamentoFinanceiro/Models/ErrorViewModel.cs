@@ -1,4 +1,4 @@
-namespace GerenciamentoFinanceiro.Models
+﻿namespace GerenciamentoFinanceiro.Models
 {
     public class ErrorViewModel
     {
