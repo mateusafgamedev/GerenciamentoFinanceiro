@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Financeiro>
 
-    <div>
+    <div class="row mt-5">
 
         <div class="text-center">
             <a class="btn btn-success">Adicionar - Transação</a>
@@ -10,34 +10,87 @@
 
         <div class="col-md-2">
 
-            <div class="mb-3">
-                <label class="form-label">Categorias:</label>
-                <select 
-                    name="filtro"
-                    class="form-select"
-                    asp-items="@(new SelectList(ViewBag.Categorias,"CategoriaId","Nome",ViewBag.Filtros.CategoriaId))">
-
-                <option value="todos">Todas</option>
-
-                </select>
-
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Transações:</label>
-                <select 
-                    name="filtro"
-                    class="form-select"
-                    asp-items="@(new SelectList(ViewBag.Transacoes,"TransacaoId","Nome",ViewBag.Filtros.TransacaoId))">
+            <form asp-action="Filtrar" asp-controller="Home" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Categorias:</label>
+                    <select 
+                        name="filtro_categoria"
+                        class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Categorias,"CategoriaId","Nome",ViewBag.Filtros.CategoriaId))">
 
                     <option value="todos">Todas</option>
 
-                </select>
+                    </select>
 
-            </div>
+                </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Transações:</label>
+                    <select 
+                        name="filtro_transacao"
+                        class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Transacoes,"TransacaoId","Nome",ViewBag.Filtros.TransacaoId))">
+
+                        <option value="todos">Todas</option>
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Data da Operação:</label>
+                     <select 
+                        name="filtro_dataOperacao"
+                        class="form-select"
+                        asp-items="@(new SelectList(ViewBag.DataOperacao,"Key","Value",ViewBag.Filtros.DataOperacao))">
+
+                        <option value="todos">Todas</option>
+
+                    </select>
+                </div>
+
+                <button class="btn-primary btn w-100 mb-2">Filtrar</button>
+                <a asp-action="Index" asp-route-id="" class="btn btn-primary w-100">Limpar Filtros</a>
+                
+            </form>
         </div>
 
         <div class="col-md-10">
+
+            <table class="table table-light table-bordered mt-2">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valores</th>
+                        <th>Data da Operação</th>
+                        <th>Categoria</th>
+                        <th>Transação</th>
+                        <th class="w-25"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (Financeiro finaca in Model)
+                    {
+                        <tr>
+                            <td>@finaca.Descricao</td>
+                            <td>R$ @finaca.Valor.ToString("F")</td>
+                            <td>@finaca.DataDaOperacao.ToString("dd/MM/yyyy")</td>
+                            <td>@finaca.Categoria.Nome</td>
+                            @if(finaca.Transacao.Nome == "Lucro")
+                            {
+                                <td style="color: green; font-weight: bold;">@finaca.Transacao.Nome</td>                  
+                            } else
+                            {
+                                <td style="color: red; font-weight: bold;">@finaca.Transacao.Nome</td>
+                            }
+                            <td>
+                                <a class="btn btn-danger">Remover</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
         </div>
     </div>
