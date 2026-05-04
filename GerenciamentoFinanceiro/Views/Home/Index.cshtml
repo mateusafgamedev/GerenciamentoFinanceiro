@@ -12,9 +12,9 @@
 
             <form asp-action="Filtrar" asp-controller="Home" method="post">
                 <div class="mb-3">
-                    <label class="form-label">Categorias:</label>
+                    <label class="form-label" style="font-weight: bold">Categorias:</label>
                     <select 
-                        name="filtro_categoria"
+                        name="filtro"
                         class="form-select"
                         asp-items="@(new SelectList(ViewBag.Categorias,"CategoriaId","Nome",ViewBag.Filtros.CategoriaId))">
 
@@ -25,9 +25,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Transações:</label>
+                <label class="form-label" style="font-weight: bold">Transações:</label>
                     <select 
-                        name="filtro_transacao"
+                        name="filtro"
                         class="form-select"
                         asp-items="@(new SelectList(ViewBag.Transacoes,"TransacaoId","Nome",ViewBag.Filtros.TransacaoId))">
 
@@ -37,9 +37,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Data da Operação:</label>
+                <label class="form-label" style="font-weight: bold">Data da Operação:</label>
                      <select 
-                        name="filtro_dataOperacao"
+                        name="filtro"
                         class="form-select"
                         asp-items="@(new SelectList(ViewBag.DataOperacao,"Key","Value",ViewBag.Filtros.DataOperacao))">
 
