@@ -91,5 +91,16 @@ namespace GerenciamentoFinanceiro.Controllers
                 return View(financeiro);
             }
         }
+
+        public IActionResult RemoverTransacao(int id)
+        {
+            var transacao = _context.Financas.Find(id);
+            if (transacao != null)
+            {
+                _context.Financas.Remove(transacao);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

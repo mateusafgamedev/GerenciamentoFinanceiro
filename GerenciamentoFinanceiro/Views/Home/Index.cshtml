@@ -85,7 +85,7 @@
                                 <td style="color: red; font-weight: bold;">@finaca.Transacao.Nome</td>
                             }
                             <td>
-                                <a class="btn btn-danger">Remover</a>
+                                <a asp-action="RemoverTransacao" asp-controller="Home" asp-route-id="@finaca.Id" class="btn btn-danger">Remover</a>
                             </td>
                         </tr>
                     }
