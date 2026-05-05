@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="mb-3">
-                <label class="form-label" style="font-weight: bold">Transações:</label>
+                <label class="form-label" style="font-weight: bold">Tipo de transação:</label>
                     <select 
                         name="filtro"
                         class="form-select"
@@ -74,8 +74,8 @@
                     {
                         <tr>
                             <td>@finaca.Descricao</td>
-                            <td>R$ @finaca.Valor.ToString("F")</td>
-                            <td>@finaca.DataDaOperacao.ToString("dd/MM/yyyy")</td>
+                            <td>R$ @(finaca.Valor?.ToString("F"))</td>
+                            <td>@(finaca.DataDaOperacao?.ToString("dd/MM/yyyy"))</td>
                             <td>@finaca.Categoria.Nome</td>
                             @if(finaca.Transacao.Nome == "Lucro")
                             {

@@ -74,5 +74,22 @@ namespace GerenciamentoFinanceiro.Controllers
             string id = string.Join("-", filtro);
             return RedirectToAction("Index", new {ID = id});
         }
+
+        [HttpPost]
+        public IActionResult AdicionarTransacao(Financeiro financeiro)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Financas.Add(financeiro);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            { 
+                ViewBag.Categorias = _context.Categorias.ToList();
+                ViewBag.Transacoes = _context.Transacoes.ToList();
+                return View(financeiro);
+            }
+        }
     }
 }

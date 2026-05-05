@@ -35,8 +35,10 @@
         <label class="form-label">Transação:</label>
         <select 
             class="form-select" 
-            asp-items="@(new SelectList(ViewBag.Transacoes, "TransacaoId", "Nome"))"
-            asp-for="TransacaoId">
+                asp-items="@(new SelectList(ViewBag.Transacoes, "TransacaoId", "Nome"))"
+                asp-for="TransacaoId"
+        >
+            <option value=""></option>
         </select>
     </div>
 

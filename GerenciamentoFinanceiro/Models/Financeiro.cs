@@ -8,14 +8,14 @@ namespace GerenciamentoFinanceiro.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Informa uma descrição.")]
+        [Required(ErrorMessage = "Informe uma descrição.")]
         public string Descricao { get; set; }
 
-        [Required(ErrorMessage = "Informa o valor.")]
-        public double Valor { get; set; }
+        [Required(ErrorMessage = "Informe o valor.")]
+        public double? Valor { get; set; }
 
-        [Required(ErrorMessage = "Informa uma data.")]
-        public DateTime DataDaOperacao { get; set; }
+        [Required(ErrorMessage = "Informe uma data.")]
+        public DateTime? DataDaOperacao { get; set; }
 
         [Required(ErrorMessage = "Selecione uma categoria.")]
         public string CategoriaId { get; set; }
