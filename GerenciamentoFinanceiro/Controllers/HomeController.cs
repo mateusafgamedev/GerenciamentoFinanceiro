@@ -96,7 +96,6 @@ namespace GerenciamentoFinanceiro.Controllers
 
                 _context.Categorias.Add(categoriaBanco);
                 _context.SaveChanges();
-
                 return RedirectToAction("Index");
 
             } else

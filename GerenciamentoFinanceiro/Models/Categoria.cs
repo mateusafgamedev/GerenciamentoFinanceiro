@@ -6,7 +6,7 @@ namespace GerenciamentoFinanceiro.Models
     {
         public string CategoriaId { get; set; }
 
-        [Required(ErrorMessage = "Selecione uma transação.")]
+        [Required(ErrorMessage = "Informe o nome da categoria.")]
         public string Nome { get; set; }
     }
 }
