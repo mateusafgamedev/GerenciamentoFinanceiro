@@ -9,6 +9,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+    // Bunscando StringConnection do banco de dados local no notebook
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseConnection")); 
 });
 
 var app = builder.Build();
