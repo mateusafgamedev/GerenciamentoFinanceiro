@@ -112,11 +112,11 @@ namespace GerenciamentoFinanceiro.Controllers
                 {
                     CategoriaNome = item.CategoriaNome,
                     TransacaoNome = item.TransacaoNome,
-                    DataOperacao = item.DataOperacao.ToString(),
-                    ValorCategoria = item.ValorTotal.ToString(),
-                    Lucros = lucros.ToString(),
-                    Despesas = gastos.ToString(),
-                    Diferenca = diferenca.ToString(),
+                    DataOperacao = item.DataOperacao.Value.ToString("dd/MM/yyyy"),
+                    ValorCategoria = item.ValorTotal.Value.ToString("F"),
+                    Lucros = lucros.Value.ToString("F"),
+                    Despesas = gastos.Value.ToString("F"),
+                    Diferenca = diferenca.Value.ToString("F"),
                 };
                 registros.Add(registro);
             }
