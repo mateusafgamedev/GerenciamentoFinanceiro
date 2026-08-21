@@ -75,6 +75,56 @@ namespace GerenciamentoFinanceiro.Controllers
             return View(categoria);
         }
 
+        public IActionResult BalancoGeral()
+        {
+            var registrosFinanceiros = from f in _context.Financas
+                                                        .Include(c => c.Categoria)
+                                                        .Include(t => t.Transacao)
+                                                        .ToList()
+                                       group f by new { f.CategoriaId } into total
+                                       select new 
+                                       {
+                                           CategoriaNome = total.First().Categoria.Nome,
+                                           TransacaoNome = total.First().Transacao.Nome,
+                                           DataOperacao = total.First().DataDaOperacao,
+                                           ValorTotal = total.Sum(v => v.Valor)
+                                       };
+
+            var lucros = _context.Financas
+                                .Include (c => c.Categoria)
+                                .Include(t => t.Transacao)
+                                .Where(x => x.Transacao.Nome == "lucro")
+                                .Sum(v => v.Valor);
+
+            var gastos = _context.Financas
+                                .Include(c => c.Categoria)
+                                .Include(t => t.Transacao)
+                                .Where(x => x.Transacao.Nome == "despesa")
+                                .Sum(v => v.Valor);
+
+            var diferenca = lucros - gastos;
+
+            List<RegistrosFinanceiros> registros = new List<RegistrosFinanceiros>();
+
+            foreach(var item in registrosFinanceiros)
+            {
+                var registro = new RegistrosFinanceiros
+                {
+                    CategoriaNome = item.CategoriaNome,
+                    TransacaoNome = item.TransacaoNome,
+                    DataOperacao = item.DataOperacao.ToString(),
+                    ValorCategoria = item.ValorTotal.ToString(),
+                    Lucros = lucros.ToString(),
+                    Despesas = gastos.ToString(),
+                    Diferenca = diferenca.ToString(),
+                };
+                registros.Add(registro);
+            }
+
+            return View(registros);
+
+        }
+
         [HttpPost]
         public IActionResult Filtrar(string[] filtro)
         {
