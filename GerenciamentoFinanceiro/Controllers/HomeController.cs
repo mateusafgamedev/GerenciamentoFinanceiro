@@ -68,11 +68,90 @@ namespace GerenciamentoFinanceiro.Controllers
             return View();
         }
 
+        public IActionResult AdicionarCategoria()
+        {
+            var categoria = new Categoria { CategoriaId = "categoria" };
+
+            return View(categoria);
+        }
+
+        public IActionResult BalancoGeral()
+        {
+            var registrosFinanceiros = from f in _context.Financas
+                                                        .Include(c => c.Categoria)
+                                                        .Include(t => t.Transacao)
+                                                        .ToList()
+                                       group f by new { f.CategoriaId } into total
+                                       select new 
+                                       {
+                                           CategoriaNome = total.First().Categoria.Nome,
+                                           TransacaoNome = total.First().Transacao.Nome,
+                                           DataOperacao = total.First().DataDaOperacao,
+                                           ValorTotal = total.Sum(v => v.Valor)
+                                       };
+
+            var lucros = _context.Financas
+                                .Include (c => c.Categoria)
+                                .Include(t => t.Transacao)
+                                .Where(x => x.Transacao.Nome == "lucro")
+                                .Sum(v => v.Valor);
+
+            var gastos = _context.Financas
+                                .Include(c => c.Categoria)
+                                .Include(t => t.Transacao)
+                                .Where(x => x.Transacao.Nome == "despesa")
+                                .Sum(v => v.Valor);
+
+            var diferenca = lucros - gastos;
+
+            List<RegistrosFinanceiros> registros = new List<RegistrosFinanceiros>();
+
+            foreach(var item in registrosFinanceiros)
+            {
+                var registro = new RegistrosFinanceiros
+                {
+                    CategoriaNome = item.CategoriaNome,
+                    TransacaoNome = item.TransacaoNome,
+                    DataOperacao = item.DataOperacao.Value.ToString("dd/MM/yyyy"),
+                    ValorCategoria = item.ValorTotal.Value.ToString("F"),
+                    Lucros = lucros.Value.ToString("F"),
+                    Despesas = gastos.Value.ToString("F"),
+                    Diferenca = diferenca.Value.ToString("F"),
+                };
+                registros.Add(registro);
+            }
+
+            return View(registros);
+
+        }
+
         [HttpPost]
         public IActionResult Filtrar(string[] filtro)
         {
             string id = string.Join("-", filtro);
             return RedirectToAction("Index", new {ID = id});
+        }
+
+        [HttpPost]
+        public IActionResult AdicionarCategoria(Categoria categoria)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var categoriaBanco = new Categoria
+                {
+                    CategoriaId = categoria.Nome.ToLower(),
+                    Nome = categoria.Nome,
+                };
+
+                _context.Categorias.Add(categoriaBanco);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+
+            } else
+            {
+                return View(categoria);
+            }
         }
 
         [HttpPost]
