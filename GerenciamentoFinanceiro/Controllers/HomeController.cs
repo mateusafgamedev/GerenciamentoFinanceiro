@@ -81,7 +81,7 @@ namespace GerenciamentoFinanceiro.Controllers
                                                         .Include(c => c.Categoria)
                                                         .Include(t => t.Transacao)
                                                         .ToList()
-                                       group f by new { f.CategoriaId } into total
+                                       group f by new { f.CategoriaId, f.TransacaoId } into total
                                        select new 
                                        {
                                            CategoriaNome = total.First().Categoria.Nome,
@@ -93,13 +93,13 @@ namespace GerenciamentoFinanceiro.Controllers
             var lucros = _context.Financas
                                 .Include (c => c.Categoria)
                                 .Include(t => t.Transacao)
-                                .Where(x => x.Transacao.Nome == "lucro")
+                                .Where(x => x.Transacao.Nome == "Lucro")
                                 .Sum(v => v.Valor);
 
             var gastos = _context.Financas
                                 .Include(c => c.Categoria)
                                 .Include(t => t.Transacao)
-                                .Where(x => x.Transacao.Nome == "despesa")
+                                .Where(x => x.Transacao.Nome == "Despesa")
                                 .Sum(v => v.Valor);
 
             var diferenca = lucros - gastos;
